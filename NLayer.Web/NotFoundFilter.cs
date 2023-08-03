@@ -4,7 +4,7 @@ using NLayer.Core.DTOs;
 using NLayer.Core.Models;
 using NLayer.Core.Services;
 
-namespace NLayer.API.Filters
+namespace NLayer.Web
 {
     public class NotFoundFilter<T> : IAsyncActionFilter where T : BaseEntity
     {
@@ -27,9 +27,14 @@ namespace NLayer.API.Filters
             var id = (int)idValue;
             var anyEntity = await _service.AnyAsync(x => x.Id == id);
 
-            throw new NotImplementedException();
+            if (anyEntity)
+            {
+                await next.Invoke();
+                return;
+            }
+            var errorViewModel = new ErrorViewModel();
+            errorViewModel.Errors.Add($"{typeof(T).Name}({id}) not found");
+            context.Result = new RedirectToActionResult("Error","Home", errorViewModel);
         }
-
-
     }
 }

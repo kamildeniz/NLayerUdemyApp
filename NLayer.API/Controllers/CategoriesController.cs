@@ -5,7 +5,7 @@ namespace NLayer.API.Controllers
 {
 
 
-    public class CategoriesController : CustomBaseController    
+    public class CategoriesController : CustomBaseController
     {
         private readonly ICategoryService _categoryService;
 
@@ -15,7 +15,7 @@ namespace NLayer.API.Controllers
         }
 
         [HttpGet("[action]/{categoryId}")]
-        public async  Task<IActionResult> GetSingleCategoryByIdWithProducts(int categoryId)
+        public async Task<IActionResult> GetSingleCategoryByIdWithProducts(int categoryId)
         {
             return CreateActionResult(await _categoryService.GetSingleCategoryByIdWithPrductsAsync(categoryId));
         }
